@@ -1,9 +1,9 @@
-USER="hmn"
+USER="rstudio"
 apt-get --assume-yes update
 apt-get --assume-yes install r-base
 apt-get --assume-yes install gdebi-core
-wget https://download2.rstudio.org/server/jammy/amd64/rstudio-server-2022.12.0-353-amd64.deb
-gdebi --non-interactive rstudio-server-2022.12.0-353-amd64.deb
+wget https://download2.rstudio.org/server/jammy/amd64/rstudio-server-2025.09.2-418-amd64.deb
+gdebi --non-interactive rstudio-server-2025.09.2-418-amd64.deb
 adduser --gecos "" --disabled-password $USER
 chpasswd <<<"$USER:$USER"
 mkdir /home/$USER/.ssh
