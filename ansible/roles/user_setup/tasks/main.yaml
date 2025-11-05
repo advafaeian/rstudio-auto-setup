@@ -1,0 +1,40 @@
+- name: Generate random password
+  set_fact:
+    generated_password: "{{ lookup('password', '/dev/null length=16 chars=ascii_letters,digits') }}"
+  run_once: true
+  no_log: true
+
+
+- name:  Save generated password locally
+  copy:
+    content: "{{ user_name }}: {{ generated_password }}"
+    dest: "../generated_password.txt"
+  delegate_to: localhost
+  become: false
+  run_once: true
+  no_log: true
+
+- name: Ensure user exists
+  user:
+    name: "{{ user_name }}"
+    shell: /bin/bash
+    create_home: yes
+    password: "{{ generated_password | password_hash('sha512') }}"
+  register: user_creation
+
+- name: Create .ssh directory
+  file:
+    path: "/home/{{ user_name }}/.ssh"
+    state: directory
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: '0700'
+
+- name: Copy authorized_keys from root
+  copy:
+    src: /root/.ssh/authorized_keys
+    dest: "/home/{{ user_name }}/.ssh/authorized_keys"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: '0600'
+    remote_src: yes

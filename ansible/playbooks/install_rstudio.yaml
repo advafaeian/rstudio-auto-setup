@@ -1,0 +1,8 @@
+---
+- name: Install RStudio Server
+  hosts: all
+  roles:
+    - common
+    - user_setup
+    - rstudio
+

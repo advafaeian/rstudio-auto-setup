@@ -1,0 +1,24 @@
+- name: Install required packages
+  apt:
+    name:
+      - r-base
+      - gdebi-core
+    state: present
+
+- name: Download RStudio Server package
+  get_url:
+    url: "{{ rstudio_deb_url }}"
+    dest: "{{ rstudio_deb_file }}"
+    mode: '0644'
+
+- name: Install RStudio Server
+  apt:
+    deb: "{{ rstudio_deb_file }}"
+
+- name: Copy project directory to remote machine
+  synchronize:
+    src: "{{ project_host_dir }}/"
+    dest: "/home/{{ user_name }}/{{ project_host_dir | basename }}"
+  when: project_host_dir is defined and project_host_dir | length > 0
+  become: true
+  become_user: "{{ user_name }}"
