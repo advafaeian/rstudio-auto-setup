@@ -1,6 +1,6 @@
 # RStudio Auto Setup
 
-This repository automates the installation and setup of **RStudio Server** on either a **remote** or **local** machine using Bash or Ansible. It is particularly useful when you need to **perform or showcase analyses live**, allowing you to quickly set up a **publicly accessible RStudio panel**.
+This repository automates the installation and setup of RStudio Server on either a remote or local machine using Bash or Ansible, creating and running it under a dedicated non-root user. It is particularly useful when you need to **perform or showcase analyses live**, allowing you to quickly set up a **publicly accessible RStudio panel**.
 
 
 ---
