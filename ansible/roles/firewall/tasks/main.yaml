@@ -1,0 +1,35 @@
+- name: Allow SSH
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: 22
+    jump: ACCEPT
+    state: present
+
+- name: Allow RStudio Server port (8787)
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: 8787
+    jump: ACCEPT
+    state: present
+
+- name: Allow related and established connections
+  ansible.builtin.iptables:
+    chain: INPUT
+    ctstate: ESTABLISHED,RELATED
+    jump: ACCEPT
+    state: present
+
+- name: Allow loopback traffic
+  ansible.builtin.iptables:
+    chain: INPUT
+    in_interface: lo
+    jump: ACCEPT
+    state: present
+
+- name: Drop everything else by default
+  ansible.builtin.iptables:
+    chain: INPUT
+    jump: DROP
+    state: present
